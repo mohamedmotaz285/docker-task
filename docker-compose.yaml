@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: devops_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+    driver: bridge
+
